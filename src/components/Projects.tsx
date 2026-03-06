@@ -105,7 +105,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
                       <div className="flex items-center gap-3">
                         <h4 className="text-lg font-semibold">{project.title}</h4>
                         {project.badge && (
-                          <span className="text-[10px] font-mono uppercase tracking-wider text-text-primary bg-white/10 border border-white/20 rounded-full px-2.5 py-0.5">
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-text-primary bg-text-dimmed/15 border border-text-dimmed/25 rounded-full px-2.5 py-0.5">
                             {project.badge}
                           </span>
                         )}

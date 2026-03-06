@@ -7,7 +7,7 @@ import { ArrowDown } from "lucide-react";
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.03)_0%,_transparent_70%)]" />
+      <div className="absolute inset-0 hero-gradient" />
 
       <div className="relative z-10 max-w-3xl text-center">
         <motion.div

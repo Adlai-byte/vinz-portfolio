@@ -92,7 +92,7 @@ export default function BlogPostsGrid({ posts }: { posts: Post[] }) {
                   </div>
 
                   {/* Title */}
-                  <h4 className="text-lg font-semibold text-text-primary mb-2 group-hover:text-white transition-colors">
+                  <h4 className="text-lg font-semibold text-text-primary mb-2 transition-colors">
                     {post.title}
                   </h4>
 

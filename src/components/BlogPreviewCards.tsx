@@ -63,7 +63,7 @@ export default function BlogPreviewCards({ posts }: { posts: Post[] }) {
                     >
                       {post.type}
                     </span>
-                    <h4 className="text-lg font-semibold text-text-primary group-hover:text-white transition-colors">
+                    <h4 className="text-lg font-semibold text-text-primary transition-colors">
                       {post.title}
                     </h4>
                   </div>

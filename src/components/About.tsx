@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import AnimatedStats from "./AnimatedStats";
 import {
   SiReact,
   SiNextdotjs,
@@ -100,6 +101,8 @@ export default function About() {
           into polished products. I care about good design, solid architecture,
           and writing code that&apos;s easy to maintain.
         </motion.p>
+
+        <AnimatedStats />
 
         {categories.map((cat) => {
           const items = techStack.filter((t) => t.category === cat.key);
