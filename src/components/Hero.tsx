@@ -71,10 +71,10 @@ export default function Hero() {
           className="flex items-center justify-center gap-4"
         >
           <a
-            href="#projects"
+            href="mailto:vinzlloydalferez@gmail.com?subject=Quote%20Request"
             className="px-6 py-3 bg-text-primary text-background font-medium rounded-lg hover:bg-text-muted transition-colors duration-200 text-sm"
           >
-            View Projects
+            Get a Quote
           </a>
           <a
             href="#contact"
