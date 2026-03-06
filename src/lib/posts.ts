@@ -53,3 +53,34 @@ export function getPostBySlug(slug: string): Post | null {
 export function getPostsByType(type: "blog" | "research"): Post[] {
   return getAllPosts().filter((p) => p.type === type);
 }
+
+export function getAllPostsAdmin(): Post[] {
+  if (!fs.existsSync(postsDirectory)) return [];
+
+  const files = fs.readdirSync(postsDirectory).filter((f) => f.endsWith(".md"));
+
+  return files
+    .map((filename) => {
+      const filePath = path.join(postsDirectory, filename);
+      const fileContent = fs.readFileSync(filePath, "utf-8");
+      const { data, content } = matter(fileContent);
+
+      return {
+        slug: data.slug || filename.replace(/\.md$/, ""),
+        title: data.title || "Untitled",
+        excerpt: data.excerpt || "",
+        type: data.type || "blog",
+        tags: data.tags || [],
+        published: data.published !== false,
+        date: data.date || "",
+        content,
+        coverImage: data.coverImage,
+      } as Post;
+    })
+    .sort((a, b) => (a.date > b.date ? -1 : 1));
+}
+
+export function getPostBySlugAdmin(slug: string): Post | null {
+  const posts = getAllPostsAdmin();
+  return posts.find((p) => p.slug === slug) || null;
+}
