@@ -154,4 +154,10 @@ export const staticProjects: Project[] = [
     tags: ["Next.js", "TypeScript", "Prisma", "Tailwind CSS"],
     image: "/projects/checkit.png",
   },
+  {
+    title: "Electrical Circuit Learning Game",
+    description:
+      "An interactive Android game for learning electrical installation through circuit building. Features drag-and-drop components, click-to-connect wiring with Bezier curves, real-time circuit simulation, short circuit detection, visual effects, progressive levels, and a tutorial system.",
+    tags: ["Kotlin", "LibGDX", "Android", "Gradle"],
+  },
 ];
