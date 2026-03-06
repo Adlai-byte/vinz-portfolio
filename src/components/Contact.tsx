@@ -2,26 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
-import { SiGithub, SiLinkedin, SiFacebook } from "react-icons/si";
-
-const socials = [
-  { icon: SiGithub, label: "GitHub", href: "https://github.com/Adlai-byte" },
-  {
-    icon: SiFacebook,
-    label: "Facebook",
-    href: "https://www.facebook.com/vnz.llyd",
-  },
-  {
-    icon: SiLinkedin,
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/vinz",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    href: "mailto:vinzlloydalferez@gmail.com",
-  },
-];
 
 export default function Contact() {
   return (
@@ -46,23 +26,14 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="flex items-center justify-center gap-6"
         >
-          {socials.map((social) => (
-            <a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center justify-center w-12 h-12 rounded-lg border border-border bg-surface hover:border-text-dimmed hover:bg-background transition-all duration-200"
-              aria-label={social.label}
-            >
-              <social.icon
-                size={20}
-                className="text-text-muted group-hover:text-text-primary transition-colors"
-              />
-            </a>
-          ))}
+          <a
+            href="mailto:vinzlloydalferez@gmail.com"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-surface border border-border rounded-lg hover:border-text-dimmed hover:bg-background transition-all duration-200"
+          >
+            <Mail size={20} className="text-text-muted" />
+            <span className="text-text-primary">vinzlloydalferez@gmail.com</span>
+          </a>
         </motion.div>
       </div>
     </section>
