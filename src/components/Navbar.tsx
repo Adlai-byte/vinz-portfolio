@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -19,7 +21,8 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      const sections = navLinks.map((link) => link.href.slice(1));
+      const hashLinks = navLinks.filter((link) => link.href.startsWith("#"));
+      const sections = hashLinks.map((link) => link.href.slice(1));
       let current = "";
       for (const section of sections) {
         const el = document.getElementById(section);
@@ -54,19 +57,36 @@ export default function Navbar() {
         </a>
 
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className={`text-sm transition-colors duration-200 ${
-                activeSection === link.href.slice(1)
-                  ? "text-text-primary"
-                  : "text-text-muted hover:text-text-primary"
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isHash = link.href.startsWith("#");
+            const isActive = isHash && activeSection === link.href.slice(1);
+
+            if (isHash) {
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm transition-colors duration-200 ${
+                    isActive
+                      ? "text-text-primary"
+                      : "text-text-muted hover:text-text-primary"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              );
+            }
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-text-muted hover:text-text-primary transition-colors duration-200"
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
 
         <button
@@ -87,16 +107,31 @@ export default function Navbar() {
             className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border overflow-hidden"
           >
             <div className="flex flex-col px-6 py-4 gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-sm text-text-muted hover:text-text-primary transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                if (link.href.startsWith("#")) {
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="text-sm text-text-muted hover:text-text-primary transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-sm text-text-muted hover:text-text-primary transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
             </div>
           </motion.div>
         )}
