@@ -5,6 +5,7 @@ export interface Project {
   github?: string;
   demo?: string;
   image?: string;
+  images?: string[];
   badge?: string;
 }
 
@@ -33,7 +34,7 @@ const frameworkLabels: Record<string, string> = {
 // Keyed by project name (as it appears in Vercel).
 const projectMeta: Record<
   string,
-  { description: string; tags: string[]; image: string; demo?: string; badge?: string }
+  { description: string; tags: string[]; image: string; images?: string[]; demo?: string; badge?: string }
 > = {
   "pokemon-battle-royale": {
     description:
@@ -138,6 +139,7 @@ export async function fetchVercelProjects(): Promise<Project[]> {
         github,
         demo,
         image: meta?.image,
+        images: meta?.images,
         badge: meta?.badge,
       };
     });
@@ -159,5 +161,6 @@ export const staticProjects: Project[] = [
     description:
       "An interactive Android game for learning electrical installation through circuit building. Features drag-and-drop components, click-to-connect wiring with Bezier curves, real-time circuit simulation, short circuit detection, visual effects, progressive levels, and a tutorial system.",
     tags: ["Kotlin", "LibGDX", "Android", "Gradle"],
+    images: ["/projects/circuit-game-menu.png", "/projects/circuit-game-play.png"],
   },
 ];
