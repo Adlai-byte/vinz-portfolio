@@ -5,10 +5,11 @@ import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import { fetchVercelProjects } from "@/data/projects";
+import { fetchVercelProjects, staticProjects } from "@/data/projects";
 
 export default async function Home() {
-  const projects = await fetchVercelProjects();
+  const vercelProjects = await fetchVercelProjects();
+  const projects = [...vercelProjects, ...staticProjects];
 
   return (
     <main>

@@ -53,7 +53,14 @@ const projectMeta: Record<
       "A smart waste collection management system for Mati City, Davao Oriental. Residents can report waste issues, track collection schedules, view GPS-tracked trucks, and monitor report status in real time.",
     tags: ["HTML", "Tailwind CSS", "JavaScript"],
     image: "/projects/kolekta.png",
-    badge: "Major Contributor",
+    badge: "Code Reviewer",
+  },
+  "mikasa-v3": {
+    description:
+      "A property management system with smart scheduling, financial tracking, and real-time updates. Features automated bookings, check-ins, maintenance management, revenue dashboards, and instant notifications across all devices.",
+    tags: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
+    image: "/projects/mikasa-v3.png",
+    demo: "https://casa-concierge-mikasa.vercel.app",
   },
   "countdown-app-2026": {
     description:
@@ -86,7 +93,7 @@ export async function fetchVercelProjects(): Promise<Project[]> {
     if (!res.ok) return [];
 
     const data = await res.json();
-    const hiddenProjects = new Set(["mikasa-v3", "vinz-portfolio"]);
+    const hiddenProjects = new Set(["vinz-portfolio"]);
     const vercelProjects: VercelProject[] = (data.projects ?? []).filter(
       (p: VercelProject) => !hiddenProjects.has(p.name),
     );
@@ -138,3 +145,13 @@ export async function fetchVercelProjects(): Promise<Project[]> {
     return [];
   }
 }
+
+export const staticProjects: Project[] = [
+  {
+    title: "CheckIt",
+    description:
+      "A smart grading and classroom management system for instructors. Features QR-coded answer sheet scanning, item analysis, score distribution, attendance tracking, calendar scheduling, GPA computation, and performance reports.",
+    tags: ["Next.js", "TypeScript", "Prisma", "Tailwind CSS"],
+    image: "/projects/checkit.png",
+  },
+];
