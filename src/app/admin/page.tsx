@@ -1,5 +1,6 @@
 import { getAllPostsAdmin } from "@/lib/posts";
-import { logout, deletePost } from "./actions";
+import { logout } from "./actions";
+import DeleteButton from "@/components/admin/DeleteButton";
 
 export default function AdminDashboard() {
   const posts = getAllPostsAdmin();
@@ -99,20 +100,7 @@ export default function AdminDashboard() {
                         >
                           Edit
                         </a>
-                        <form action={deletePost}>
-                          <input type="hidden" name="slug" value={post.slug} />
-                          <button
-                            type="submit"
-                            onClick={(e) => {
-                              if (!confirm(`Delete "${post.title}"?`)) {
-                                e.preventDefault();
-                              }
-                            }}
-                            className="text-xs px-3 py-1 border border-red-500/30 text-red-400 rounded hover:bg-red-500/10 transition-colors"
-                          >
-                            Delete
-                          </button>
-                        </form>
+                        <DeleteButton slug={post.slug} title={post.title} />
                       </div>
                     </td>
                   </tr>
