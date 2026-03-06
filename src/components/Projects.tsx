@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Github, ExternalLink } from "lucide-react";
 import type { Project } from "@/data/projects";
+import ImageLightbox from "./ImageLightbox";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -19,6 +21,12 @@ const cardVariants = {
 };
 
 export default function Projects({ projects }: { projects: Project[] }) {
+  const [lightbox, setLightbox] = useState<{
+    images: string[];
+    index: number;
+    alt: string;
+  } | null>(null);
+
   return (
     <section id="projects" className="py-20 md:py-32 px-6">
       <div className="max-w-5xl mx-auto">
@@ -39,7 +47,15 @@ export default function Projects({ projects }: { projects: Project[] }) {
           viewport={{ once: true, margin: "-100px" }}
           className="flex flex-col gap-6"
         >
-          {projects.map((project) => (
+          {projects.map((project) => {
+            const allImages = project.images?.length
+              ? project.images
+              : project.image
+                ? [project.image]
+                : [];
+            const thumbnail = allImages[0];
+
+            return (
             <motion.div
               key={project.title}
               variants={cardVariants}
@@ -48,10 +64,31 @@ export default function Projects({ projects }: { projects: Project[] }) {
             >
               <div className="flex flex-col md:flex-row">
                 {/* Screenshot */}
-                {project.image && (
-                  <div className="relative w-full md:w-80 lg:w-96 shrink-0 aspect-video md:aspect-auto bg-background">
+                {thumbnail && (
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() =>
+                      setLightbox({
+                        images: allImages,
+                        index: 0,
+                        alt: project.title,
+                      })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setLightbox({
+                          images: allImages,
+                          index: 0,
+                          alt: project.title,
+                        });
+                      }
+                    }}
+                    className="relative w-full md:w-80 lg:w-96 shrink-0 aspect-video md:aspect-auto bg-background cursor-pointer"
+                  >
                     <Image
-                      src={project.image}
+                      src={thumbnail}
                       alt={`${project.title} screenshot`}
                       fill
                       className="object-cover object-top"
@@ -117,9 +154,19 @@ export default function Projects({ projects }: { projects: Project[] }) {
                 </div>
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </motion.div>
       </div>
+
+      {lightbox && (
+        <ImageLightbox
+          images={lightbox.images}
+          initialIndex={lightbox.index}
+          alt={lightbox.alt}
+          onClose={() => setLightbox(null)}
+        />
+      )}
     </section>
   );
 }
