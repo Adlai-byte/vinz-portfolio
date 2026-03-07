@@ -53,6 +53,12 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
   const [description, setDescription] = useState("");
   const [budget, setBudget] = useState("");
   const [timeframe, setTimeframe] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  // Reset status when modal opens
+  useEffect(() => {
+    if (isOpen) setStatus("idle");
+  }, [isOpen]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -90,26 +96,40 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
     });
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setStatus("sending");
 
-    const subject = `Quote Request — ${projectType || "General"}`;
-    const body = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Customer Type: ${customerType}`,
-      `Project Type: ${projectType}`,
-      `AI Suggestions: ${aiSelections.length > 0 ? aiSelections.join(", ") : "None"}`,
-      ``,
-      `Project Description:`,
-      description,
-      ``,
-      `Expected Budget: ${budget || "Not specified"}`,
-      `Timeframe: ${timeframe || "Not specified"}`,
-    ].join("\n");
+    try {
+      const res = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          customerType,
+          projectType,
+          aiSuggestions: aiSelections.length > 0 ? aiSelections.join(", ") : "None",
+          description,
+          budget,
+          timeframe,
+        }),
+      });
 
-    const mailto = `mailto:vinzlloydalferez@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+      if (!res.ok) throw new Error("Failed to send");
+
+      setStatus("sent");
+      setName("");
+      setEmail("");
+      setCustomerType("");
+      setProjectType("");
+      setAiSelections([]);
+      setDescription("");
+      setBudget("");
+      setTimeframe("");
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
@@ -282,12 +302,31 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
               </div>
 
               {/* Submit */}
-              <button
-                type="submit"
-                className="w-full px-6 py-3 bg-text-primary text-background font-mono font-medium rounded-lg hover:bg-text-muted transition-colors duration-200 text-sm"
-              >
-                $ send_quote_request
-              </button>
+              {status === "sent" ? (
+                <div className="w-full px-6 py-3 bg-emerald-600 text-white font-mono font-medium rounded-lg text-sm text-center">
+                  Quote sent successfully!
+                </div>
+              ) : status === "error" ? (
+                <div className="space-y-2">
+                  <div className="w-full px-6 py-3 bg-red-600 text-white font-mono font-medium rounded-lg text-sm text-center">
+                    Failed to send. Please try again.
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full px-6 py-3 bg-text-primary text-background font-mono font-medium rounded-lg hover:bg-text-muted transition-colors duration-200 text-sm"
+                  >
+                    $ retry_quote_request
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="w-full px-6 py-3 bg-text-primary text-background font-mono font-medium rounded-lg hover:bg-text-muted transition-colors duration-200 text-sm disabled:opacity-50"
+                >
+                  {status === "sending" ? "$ sending..." : "$ send_quote_request"}
+                </button>
+              )}
             </form>
           </motion.div>
         </motion.div>
