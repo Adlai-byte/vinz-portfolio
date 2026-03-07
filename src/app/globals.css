@@ -12,61 +12,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-html.light {
-  --color-background: #fafafa;
-  --color-surface: #ffffff;
-  --color-border: #d4d4d4;
-  --color-text-primary: #171717;
-  --color-text-muted: #525252;
-  --color-text-dimmed: #737373;
-}
-
-/* Fix Tailwind color shades for light mode: swap -400 to -600 */
-html.light .badge-purple {
-  --tw-text-opacity: 1;
-  color: rgb(147 51 234 / var(--tw-text-opacity));
-  border-color: rgb(147 51 234 / 0.3);
-  background-color: rgb(147 51 234 / 0.1);
-}
-html.light .badge-emerald {
-  --tw-text-opacity: 1;
-  color: rgb(5 150 105 / var(--tw-text-opacity));
-  border-color: rgb(5 150 105 / 0.3);
-  background-color: rgb(5 150 105 / 0.1);
-}
-html.light .badge-blue {
-  --tw-text-opacity: 1;
-  color: rgb(37 99 235 / var(--tw-text-opacity));
-  border-color: rgb(37 99 235 / 0.3);
-  background-color: rgb(37 99 235 / 0.1);
-}
-html.light .badge-green {
-  --tw-text-opacity: 1;
-  color: rgb(22 163 74 / var(--tw-text-opacity));
-  border-color: rgb(22 163 74 / 0.3);
-  background-color: rgb(22 163 74 / 0.1);
-}
-html.light .badge-yellow {
-  --tw-text-opacity: 1;
-  color: rgb(202 138 4 / var(--tw-text-opacity));
-  border-color: rgb(202 138 4 / 0.4);
-  background-color: rgb(202 138 4 / 0.1);
-}
-html.light .badge-red {
-  --tw-text-opacity: 1;
-  color: rgb(220 38 38 / var(--tw-text-opacity));
-  border-color: rgb(220 38 38 / 0.3);
-  background-color: rgb(220 38 38 / 0.1);
-}
-
-/* Light mode: add subtle shadows to cards for depth */
-html.light .card-elevated {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
-}
-html.light .card-elevated:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -80,16 +25,8 @@ body {
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-html.light ::selection {
-  background-color: rgba(0, 0, 0, 0.15);
-}
-
 .hero-gradient {
   background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
-}
-
-html.light .hero-gradient {
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.03) 0%, transparent 70%);
 }
 
 /* Markdown prose styles */

@@ -71,8 +71,8 @@ export default function AdminDashboard() {
                       <span
                         className={`text-xs px-2 py-0.5 rounded-full border ${
                           post.type === "research"
-                            ? "border-blue-500/30 text-blue-400 bg-blue-500/10 badge-blue"
-                            : "border-green-500/30 text-green-400 bg-green-500/10 badge-green"
+                            ? "border-blue-500/30 text-blue-400 bg-blue-500/10"
+                            : "border-green-500/30 text-green-400 bg-green-500/10"
                         }`}
                       >
                         {post.type}
@@ -82,8 +82,8 @@ export default function AdminDashboard() {
                       <span
                         className={`text-xs px-2 py-0.5 rounded-full border ${
                           post.published
-                            ? "border-green-500/30 text-green-400 bg-green-500/10 badge-green"
-                            : "border-yellow-500/30 text-yellow-400 bg-yellow-500/10 badge-yellow"
+                            ? "border-green-500/30 text-green-400 bg-green-500/10"
+                            : "border-yellow-500/30 text-yellow-400 bg-yellow-500/10"
                         }`}
                       >
                         {post.published ? "Published" : "Draft"}

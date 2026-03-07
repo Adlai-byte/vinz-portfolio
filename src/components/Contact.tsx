@@ -29,7 +29,7 @@ export default function Contact() {
         >
           <a
             href="mailto:vinzlloydalferez@gmail.com"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-surface border border-border rounded-lg hover:border-text-dimmed transition-all duration-200 card-elevated"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-surface border border-border rounded-lg hover:border-text-dimmed transition-all duration-200"
           >
             <Mail size={20} className="text-text-muted" />
             <span className="text-text-primary">vinzlloydalferez@gmail.com</span>

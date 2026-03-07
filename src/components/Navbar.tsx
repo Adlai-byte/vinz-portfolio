@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
+
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -82,19 +82,15 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <ThemeToggle />
         </div>
 
-        <div className="flex items-center gap-3 md:hidden">
-          <ThemeToggle />
-          <button
-            className="text-text-primary"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+        <button
+          className="md:hidden text-text-primary"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
 
       <AnimatePresence>

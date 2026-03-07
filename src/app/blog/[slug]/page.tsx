@@ -67,8 +67,8 @@ export default async function BlogPostPage({
                 <span
                   className={`text-[10px] font-mono uppercase tracking-wider rounded-full px-2.5 py-0.5 border ${
                     post.type === "research"
-                      ? "text-purple-400 border-purple-400/30 bg-purple-400/10 badge-purple"
-                      : "text-emerald-400 border-emerald-400/30 bg-emerald-400/10 badge-emerald"
+                      ? "text-purple-400 border-purple-400/30 bg-purple-400/10"
+                      : "text-emerald-400 border-emerald-400/30 bg-emerald-400/10"
                   }`}
                 >
                   {post.type}

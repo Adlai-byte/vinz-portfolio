@@ -13,7 +13,7 @@ export default function DeleteButton({ slug, title }: { slug: string; title: str
             e.preventDefault();
           }
         }}
-        className="text-xs px-3 py-1 border border-red-500/30 text-red-400 rounded hover:bg-red-500/10 transition-colors badge-red"
+        className="text-xs px-3 py-1 border border-red-500/30 text-red-400 rounded hover:bg-red-500/10 transition-colors"
       >
         Delete
       </button>

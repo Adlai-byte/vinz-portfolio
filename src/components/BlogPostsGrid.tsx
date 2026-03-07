@@ -74,14 +74,14 @@ export default function BlogPostsGrid({ posts }: { posts: Post[] }) {
           {filtered.map((post) => (
             <motion.div key={post.slug} variants={cardVariants}>
               <Link href={`/blog/${post.slug}`} className="block group">
-                <div className="h-full bg-surface border border-border rounded-xl p-6 hover:border-text-dimmed transition-all duration-300 card-elevated">
+                <div className="h-full bg-surface border border-border rounded-xl p-6 hover:border-text-dimmed transition-all duration-300">
                   {/* Type Badge & Date */}
                   <div className="flex items-center justify-between mb-3">
                     <span
                       className={`text-[10px] font-mono uppercase tracking-wider rounded-full px-2.5 py-0.5 border ${
                         post.type === "research"
-                          ? "text-purple-400 border-purple-400/30 bg-purple-400/10 badge-purple"
-                          : "text-emerald-400 border-emerald-400/30 bg-emerald-400/10 badge-emerald"
+                          ? "text-purple-400 border-purple-400/30 bg-purple-400/10"
+                          : "text-emerald-400 border-emerald-400/30 bg-emerald-400/10"
                       }`}
                     >
                       {post.type}
