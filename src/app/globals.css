@@ -21,6 +21,44 @@ html.light {
   --color-text-dimmed: #a3a3a3;
 }
 
+/* Fix Tailwind color shades for light mode: swap -400 to -600 */
+html.light .badge-purple {
+  --tw-text-opacity: 1;
+  color: rgb(147 51 234 / var(--tw-text-opacity));
+  border-color: rgb(147 51 234 / 0.3);
+  background-color: rgb(147 51 234 / 0.1);
+}
+html.light .badge-emerald {
+  --tw-text-opacity: 1;
+  color: rgb(5 150 105 / var(--tw-text-opacity));
+  border-color: rgb(5 150 105 / 0.3);
+  background-color: rgb(5 150 105 / 0.1);
+}
+html.light .badge-blue {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
+  border-color: rgb(37 99 235 / 0.3);
+  background-color: rgb(37 99 235 / 0.1);
+}
+html.light .badge-green {
+  --tw-text-opacity: 1;
+  color: rgb(22 163 74 / var(--tw-text-opacity));
+  border-color: rgb(22 163 74 / 0.3);
+  background-color: rgb(22 163 74 / 0.1);
+}
+html.light .badge-yellow {
+  --tw-text-opacity: 1;
+  color: rgb(202 138 4 / var(--tw-text-opacity));
+  border-color: rgb(202 138 4 / 0.4);
+  background-color: rgb(202 138 4 / 0.1);
+}
+html.light .badge-red {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
+  border-color: rgb(220 38 38 / 0.3);
+  background-color: rgb(220 38 38 / 0.1);
+}
+
 html {
   scroll-behavior: smooth;
 }
