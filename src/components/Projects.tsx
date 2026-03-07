@@ -45,7 +45,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="flex flex-col gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {projects.map((project) => {
             const allImages = project.images?.length
@@ -56,13 +56,12 @@ export default function Projects({ projects }: { projects: Project[] }) {
             const thumbnail = allImages[0];
 
             return (
-            <motion.div
-              key={project.title}
-              variants={cardVariants}
-              whileHover={{ y: -2 }}
-              className="group bg-surface border border-border rounded-xl overflow-hidden hover:border-text-dimmed transition-colors duration-300"
-            >
-              <div className="flex flex-col md:flex-row">
+              <motion.div
+                key={project.title}
+                variants={cardVariants}
+                whileHover={{ y: -4 }}
+                className="group bg-surface border border-border rounded-xl overflow-hidden hover:border-text-dimmed transition-all duration-300 hover:shadow-lg flex flex-col"
+              >
                 {/* Screenshot */}
                 {thumbnail && (
                   <div
@@ -85,75 +84,77 @@ export default function Projects({ projects }: { projects: Project[] }) {
                         });
                       }
                     }}
-                    className="relative w-full md:w-80 lg:w-96 shrink-0 aspect-video md:aspect-auto bg-background cursor-pointer"
+                    className="relative w-full aspect-video bg-background cursor-pointer overflow-hidden"
                   >
                     <Image
                       src={thumbnail}
                       alt={`${project.title} screenshot`}
                       fill
-                      className="object-cover object-top"
-                      sizes="(max-width: 768px) 100vw, 384px"
+                      className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface/20 hidden md:block" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-surface/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    {allImages.length > 1 && (
+                      <span className="absolute bottom-2 right-2 text-[10px] font-mono bg-background/80 backdrop-blur-sm text-text-muted px-2 py-0.5 rounded-full border border-border">
+                        {allImages.length} photos
+                      </span>
+                    )}
                   </div>
                 )}
 
                 {/* Content */}
-                <div className="flex flex-col justify-between p-6 flex-1">
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <h4 className="text-lg font-semibold">{project.title}</h4>
-                        {project.badge && (
-                          <span className="text-[10px] font-mono uppercase tracking-wider text-text-primary bg-text-dimmed/15 border border-text-dimmed/25 rounded-full px-2.5 py-0.5">
-                            {project.badge}
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-3">
-                        {project.github && (
-                          <a
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-text-dimmed hover:text-text-primary transition-colors"
-                            aria-label={`${project.title} GitHub`}
-                          >
-                            <Github size={18} />
-                          </a>
-                        )}
-                        {project.demo && (
-                          <a
-                            href={project.demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-text-dimmed hover:text-text-primary transition-colors"
-                            aria-label={`${project.title} demo`}
-                          >
-                            <ExternalLink size={18} />
-                          </a>
-                        )}
-                      </div>
+                <div className="flex flex-col flex-1 p-5">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className="text-base font-semibold">{project.title}</h4>
+                      {project.badge && (
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-text-primary bg-text-dimmed/15 border border-text-dimmed/25 rounded-full px-2 py-0.5">
+                          {project.badge}
+                        </span>
+                      )}
                     </div>
-
-                    <p className="text-sm text-text-muted leading-relaxed mb-4">
-                      {project.description}
-                    </p>
+                    <div className="flex items-center gap-2 shrink-0 ml-2">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-text-dimmed hover:text-text-primary transition-colors"
+                          aria-label={`${project.title} GitHub`}
+                        >
+                          <Github size={16} />
+                        </a>
+                      )}
+                      {project.demo && (
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-text-dimmed hover:text-text-primary transition-colors"
+                          aria-label={`${project.title} demo`}
+                        >
+                          <ExternalLink size={16} />
+                        </a>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <p className="text-sm text-text-muted leading-relaxed mb-4 flex-1">
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1.5">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs font-mono text-text-dimmed bg-background border border-border rounded px-2 py-1"
+                        className="text-[11px] font-mono text-text-dimmed bg-background border border-border rounded px-2 py-0.5"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
             );
           })}
         </motion.div>

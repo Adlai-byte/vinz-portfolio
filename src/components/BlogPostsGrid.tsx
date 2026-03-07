@@ -74,7 +74,7 @@ export default function BlogPostsGrid({ posts }: { posts: Post[] }) {
           {filtered.map((post) => (
             <motion.div key={post.slug} variants={cardVariants}>
               <Link href={`/blog/${post.slug}`} className="block group">
-                <div className="h-full bg-surface border border-border rounded-xl p-6 hover:border-text-dimmed transition-colors duration-300">
+                <div className="h-full bg-surface border border-border rounded-xl p-6 hover:border-text-dimmed transition-all duration-300 card-elevated">
                   {/* Type Badge & Date */}
                   <div className="flex items-center justify-between mb-3">
                     <span

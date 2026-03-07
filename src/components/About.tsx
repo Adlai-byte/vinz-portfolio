@@ -129,7 +129,7 @@ export default function About() {
                     key={tech.name}
                     variants={itemVariants}
                     whileHover={{ scale: 1.05 }}
-                    className="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-2.5 cursor-default"
+                    className="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-2.5 cursor-default card-elevated"
                   >
                     <tech.icon size={16} className="text-text-dimmed shrink-0" />
                     <span className="text-sm text-text-muted">{tech.name}</span>

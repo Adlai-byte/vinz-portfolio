@@ -51,7 +51,7 @@ export default function BlogPreviewCards({ posts }: { posts: Post[] }) {
         {posts.map((post) => (
           <motion.div key={post.slug} variants={cardVariants}>
             <Link href={`/blog/${post.slug}`} className="block group">
-              <div className="bg-surface border border-border rounded-xl p-6 hover:border-text-dimmed transition-colors duration-300">
+              <div className="bg-surface border border-border rounded-xl p-6 hover:border-text-dimmed transition-all duration-300 card-elevated">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
                   <div className="flex items-center gap-3">
                     <span

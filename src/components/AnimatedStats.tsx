@@ -74,7 +74,7 @@ export default function AnimatedStats() {
         <motion.div
           key={stat.label}
           variants={itemVariants}
-          className="bg-surface border border-border rounded-lg p-5 text-center"
+          className="bg-surface border border-border rounded-lg p-5 text-center card-elevated"
         >
           <AnimatedCounter value={stat.value} suffix={stat.suffix} inView={inView} />
           <p className="text-xs md:text-sm text-text-muted mt-1">{stat.label}</p>
