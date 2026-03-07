@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vinz — Full-Stack & Mobile Developer",
+  title: "Vinz — Agentic Full-Stack Developer",
   description:
-    "Developer portfolio of Vinz — building web and mobile experiences with React, Next.js, Kotlin, and Jetpack Compose.",
+    "Developer portfolio of Vinz — agentic development workflow, 20x faster than traditional development.",
 };
 
 export default function RootLayout({

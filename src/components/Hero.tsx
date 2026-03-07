@@ -1,32 +1,47 @@
 "use client";
 
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
+import TerminalWindow from "./TerminalWindow";
+import WorkflowDiagram from "./WorkflowDiagram";
+import QuoteModal from "./QuoteModal";
+
+function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
+  const [displayed, setDisplayed] = useState("");
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setStarted(true), delay);
+    return () => clearTimeout(timeout);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!started) return;
+    if (displayed.length >= text.length) return;
+
+    const timer = setTimeout(() => {
+      setDisplayed(text.slice(0, displayed.length + 1));
+    }, 80);
+    return () => clearTimeout(timer);
+  }, [started, displayed, text]);
+
+  return (
+    <span className="font-mono">
+      {displayed}
+      <span className={displayed.length < text.length ? "cursor-blink" : "opacity-0"}>_</span>
+    </span>
+  );
+}
 
 export default function Hero() {
+  const [quoteOpen, setQuoteOpen] = useState(false);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6">
+    <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
       <div className="absolute inset-0 hero-gradient" />
 
-      <div className="relative z-10 max-w-3xl text-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-6 flex justify-center"
-        >
-          <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-border ring-2 ring-background">
-            <Image
-              src="/2x2.png"
-              alt="Vinz"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        </motion.div>
-
+      <div className="relative z-10 max-w-3xl w-full text-center">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -51,31 +66,53 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-xl md:text-2xl text-text-muted mb-6"
         >
-          Full-Stack & Mobile Developer
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-text-dimmed max-w-md mx-auto mb-10 leading-relaxed"
-        >
-          I build web and mobile experiences with React, Next.js, Kotlin, and
-          Jetpack Compose.
+          <TypingText text="D3V3L0P3R" delay={700} />
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mb-10"
+        >
+          <p className="text-lg md:text-xl font-semibold text-text-primary">
+            Agentic Development Workflow
+          </p>
+          <p className="text-sm text-text-dimmed font-mono mt-1">
+            20x faster than traditional development
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="mb-10"
+        >
+          <WorkflowDiagram />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.45 }}
+          className="mb-10"
+        >
+          <TerminalWindow />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           className="flex items-center justify-center gap-4"
         >
-          <a
-            href="mailto:vinzlloydalferez@gmail.com?subject=Quote%20Request"
+          <button
+            onClick={() => setQuoteOpen(true)}
             className="px-6 py-3 bg-text-primary text-background font-medium rounded-lg hover:bg-text-muted transition-colors duration-200 text-sm"
           >
             Get a Quote
-          </a>
+          </button>
           <a
             href="#contact"
             className="px-6 py-3 border border-border text-text-primary rounded-lg hover:bg-surface transition-colors duration-200 text-sm"
@@ -83,6 +120,8 @@ export default function Hero() {
             Get in Touch
           </a>
         </motion.div>
+
+        <QuoteModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
       </div>
 
       <motion.div

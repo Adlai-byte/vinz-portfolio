@@ -35,7 +35,7 @@ export default function BlogPreviewCards({ posts }: { posts: Post[] }) {
         transition={{ duration: 0.5 }}
         viewport={{ once: true, margin: "-100px" }}
       >
-        <h2 className="text-sm font-mono text-text-dimmed mb-2">03</h2>
+        <h2 className="text-sm font-mono text-text-dimmed mb-2">// --- 04</h2>
         <h3 className="text-2xl md:text-3xl font-bold mb-8">
           Blog & Research
         </h3>

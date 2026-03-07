@@ -36,7 +36,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
           transition={{ duration: 0.5 }}
           viewport={{ once: true, margin: "-100px" }}
         >
-          <h2 className="text-sm font-mono text-text-dimmed mb-2">02</h2>
+          <h2 className="text-sm font-mono text-text-dimmed mb-2">// --- 02</h2>
           <h3 className="text-2xl md:text-3xl font-bold mb-8">Projects</h3>
         </motion.div>
 

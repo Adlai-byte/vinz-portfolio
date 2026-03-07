@@ -94,7 +94,7 @@ export async function fetchVercelProjects(): Promise<Project[]> {
     if (!res.ok) return [];
 
     const data = await res.json();
-    const hiddenProjects = new Set(["vinz-portfolio"]);
+    const hiddenProjects = new Set(["vinz-portfolio", "dev-vinz"]);
     const vercelProjects: VercelProject[] = (data.projects ?? []).filter(
       (p: VercelProject) => !hiddenProjects.has(p.name),
     );
