@@ -303,8 +303,13 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
 
               {/* Submit */}
               {status === "sent" ? (
-                <div className="w-full px-6 py-3 bg-emerald-600 text-white font-mono font-medium rounded-lg text-sm text-center">
-                  Quote sent successfully!
+                <div className="space-y-3 text-center">
+                  <div className="w-full px-6 py-3 bg-emerald-600 text-white font-mono font-medium rounded-lg text-sm">
+                    Quote sent successfully!
+                  </div>
+                  <p className="text-xs font-mono text-text-dimmed">
+                    {"// expect a response via email within 1-3 business days"}
+                  </p>
                 </div>
               ) : status === "error" ? (
                 <div className="space-y-2">
