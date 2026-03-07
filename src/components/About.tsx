@@ -38,15 +38,13 @@ export default function About() {
           viewport={{ once: true, margin: "-100px" }}
           className="bg-surface border border-border rounded-lg p-6 max-w-md"
         >
-          <pre className="font-mono text-sm md:text-base text-text-primary leading-relaxed">
-            <code>
-              <span className="text-text-dimmed">tech_stack</span>
-              {" = "}
-              <span className="text-emerald-400">
-                &quot;A little bit of everything&quot;
-              </span>
-            </code>
-          </pre>
+          <p className="font-mono text-sm md:text-base text-text-primary leading-relaxed break-words">
+            <span className="text-text-dimmed">tech_stack</span>
+            {" = "}
+            <span className="text-emerald-400">
+              &quot;A little bit of everything&quot;
+            </span>
+          </p>
           <p className="font-mono text-xs text-text-dimmed mt-2">
             // Any language. Any framework. Whatever ships.
           </p>

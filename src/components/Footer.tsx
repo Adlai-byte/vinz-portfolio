@@ -1,8 +1,18 @@
 "use client";
 
-import { ArrowUp } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowUp, Eye } from "lucide-react";
 
 export default function Footer() {
+  const [views, setViews] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/views", { method: "POST" })
+      .then((res) => res.json())
+      .then((data) => setViews(data.count))
+      .catch(() => {});
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -14,9 +24,17 @@ export default function Footer() {
           <p className="text-sm text-text-dimmed">
             &copy; {new Date().getFullYear()} Vinz. All rights reserved.
           </p>
-          <p className="text-xs text-text-dimmed/60">
-            Built with Next.js & Tailwind CSS
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="text-xs text-text-dimmed/60">
+              Built with Next.js & Tailwind CSS
+            </p>
+            {views !== null && (
+              <span className="inline-flex items-center gap-1 text-xs text-text-dimmed/60">
+                <Eye size={12} />
+                {views.toLocaleString()} visits
+              </span>
+            )}
+          </div>
         </div>
 
         <button
