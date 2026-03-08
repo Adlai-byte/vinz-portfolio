@@ -6,6 +6,7 @@ import { ArrowDown } from "lucide-react";
 import TerminalWindow from "./TerminalWindow";
 import WorkflowDiagram from "./WorkflowDiagram";
 import QuoteModal from "./QuoteModal";
+import ParticleGrid from "./ParticleGrid";
 
 function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
   const [displayed, setDisplayed] = useState("");
@@ -40,6 +41,7 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
       <div className="absolute inset-0 hero-gradient" />
+      <ParticleGrid />
 
       <div className="relative z-10 max-w-3xl w-full text-center">
         <motion.p

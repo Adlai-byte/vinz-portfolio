@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 
 const navLinks = [
@@ -16,7 +15,6 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -85,43 +83,7 @@ export default function Navbar() {
           })}
         </div>
 
-        <button
-          className="md:hidden text-text-primary"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
       </div>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border overflow-hidden"
-          >
-            <div className="flex flex-col px-6 py-4 gap-4">
-              {navLinks.map((link) => {
-                const isHash = link.href.startsWith("#");
-                const href = isHash && !isHome ? `/${link.href}` : link.href;
-
-                return (
-                  <Link
-                    key={link.href}
-                    href={href}
-                    onClick={() => setIsOpen(false)}
-                    className="text-sm text-text-muted hover:text-text-primary transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.nav>
   );
 }

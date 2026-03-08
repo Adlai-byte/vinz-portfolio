@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import HowIWork from "@/components/HowIWork";
 import Projects from "@/components/Projects";
 import Testimonials from "@/components/Testimonials";
 import BlogPreview from "@/components/BlogPreview";
@@ -22,6 +23,8 @@ export default async function Home() {
         <AsciiDivider variant="code" />
         <About />
         <AsciiDivider variant="dots" />
+        <HowIWork />
+        <AsciiDivider variant="code" />
         <Projects projects={projects} />
         <AsciiDivider variant="wave" />
         <Testimonials />
