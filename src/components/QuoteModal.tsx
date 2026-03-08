@@ -18,6 +18,11 @@ const customerTypes = [
   "Other",
 ];
 
+const inquiryTypes = [
+  "Project Quote",
+  "Collaboration / Join My Team",
+];
+
 const projectTypes = ["Web App", "Mobile App", "Web + Mobile", "Other"];
 
 const aiSuggestions = [
@@ -47,6 +52,7 @@ const labelClass = "block text-sm text-text-muted mb-1 font-mono";
 export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [inquiryType, setInquiryType] = useState("Project Quote");
   const [customerType, setCustomerType] = useState("");
   const [projectType, setProjectType] = useState("");
   const [aiSelections, setAiSelections] = useState<string[]>([]);
@@ -107,6 +113,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
         body: JSON.stringify({
           name,
           email,
+          inquiryType,
           customerType,
           projectType,
           aiSuggestions: aiSelections.length > 0 ? aiSelections.join(", ") : "None",
@@ -121,6 +128,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
       setStatus("sent");
       setName("");
       setEmail("");
+      setInquiryType("Project Quote");
       setCustomerType("");
       setProjectType("");
       setAiSelections([]);
@@ -158,7 +166,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                 <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
                 <span className="w-3 h-3 rounded-full bg-[#28c840]" />
                 <span className="ml-3 text-xs font-mono text-text-dimmed">
-                  vinz@dev ~ % ./quote-request.sh
+                  vinz@dev ~ % ./inquiry.sh
                 </span>
               </div>
               <button
@@ -172,8 +180,26 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
             {/* Form */}
             <form onSubmit={handleSubmit} className="p-6 space-y-5">
               <p className="text-xs font-mono text-text-dimmed">
-                {"// fill in the fields below to request a quote"}
+                {"// fill in the fields below to request a quote or collaboration"}
               </p>
+
+              {/* Inquiry Type */}
+              <div className="flex gap-3">
+                {inquiryTypes.map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => setInquiryType(type)}
+                    className={`px-4 py-2 rounded-md font-mono text-sm border transition-colors ${
+                      inquiryType === type
+                        ? "bg-text-primary text-background border-text-primary"
+                        : "bg-background border-border text-text-muted hover:border-text-dimmed"
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
 
               {/* Name & Email */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -279,9 +305,6 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                   placeholder="e.g. PHP 50,000"
                   className={inputClass}
                 />
-                <p className="text-xs font-mono text-text-dimmed mt-1">
-                  {"// minimum: PHP 10,000 for simple apps"}
-                </p>
               </div>
 
               {/* Timeframe */}

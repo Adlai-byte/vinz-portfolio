@@ -29,6 +29,8 @@ export default function About() {
           AI-assisted coding that lets me ship full features in minutes instead
           of hours. I work across the entire stack: web, mobile, backend,
           infra. Whatever the problem needs, I learn it and build it.
+          I&apos;m also open for collaboration &mdash; research projects,
+          community projects, or joining your team as a developer.
         </motion.p>
 
         <motion.div

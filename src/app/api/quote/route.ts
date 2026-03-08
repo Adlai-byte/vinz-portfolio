@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const { name, email, customerType, projectType, aiSuggestions, description, budget, timeframe } =
+  const { name, email, inquiryType, customerType, projectType, aiSuggestions, description, budget, timeframe } =
     await request.json();
 
+  const isCollab = inquiryType === "Collaboration / Join My Team";
   const text = [
-    `📩 *New Quote Request*`,
+    isCollab ? `🤝 *New Collaboration Request*` : `📩 *New Quote Request*`,
     ``,
+    `*Inquiry Type:* ${escapeMarkdown(inquiryType || "Project Quote")}`,
     `*Name:* ${escapeMarkdown(name)}`,
     `*Email:* ${escapeMarkdown(email)}`,
     `*Customer Type:* ${escapeMarkdown(customerType || "Not specified")}`,
