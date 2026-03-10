@@ -130,23 +130,27 @@ ${content}`;
   redirect("/admin");
 }
 
-export async function deletePost(formData: FormData) {
-  const slug = formData.get("slug") as string;
-  const path = `content/posts/${slug}.md`;
+export async function deletePost(slug: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const path = `content/posts/${slug}.md`;
 
-  const existing = await githubApi(`/contents/${path}`);
+    const existing = await githubApi(`/contents/${path}`);
 
-  await githubApi(`/contents/${path}`, {
-    method: "DELETE",
-    body: JSON.stringify({
-      message: `blog: delete "${slug}"`,
-      sha: existing.sha,
-      branch: "master",
-    }),
-  });
+    await githubApi(`/contents/${path}`, {
+      method: "DELETE",
+      body: JSON.stringify({
+        message: `blog: delete "${slug}"`,
+        sha: existing.sha,
+        branch: "master",
+      }),
+    });
 
-  revalidatePath("/admin");
-  revalidatePath("/blog");
-  revalidatePath("/");
-  redirect("/admin");
+    revalidatePath("/admin");
+    revalidatePath("/blog");
+    revalidatePath("/");
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : "Failed to delete" };
+  }
 }

@@ -35,18 +35,20 @@ function parsePost(filename: string, raw: string): Post {
 }
 
 // Fetch posts from GitHub API (used in production on Vercel)
-async function fetchPostsFromGitHub(): Promise<Post[]> {
+async function fetchPostsFromGitHub(noCache = false): Promise<Post[]> {
   if (!GITHUB_TOKEN) return [];
+
+  const fetchOptions: RequestInit & { next?: { revalidate: number } } = {
+    headers: {
+      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      Accept: "application/vnd.github.v3+json",
+    },
+    ...(noCache ? { cache: "no-store" as const } : { next: { revalidate: 60 } }),
+  };
 
   const res = await fetch(
     `https://api.github.com/repos/${GITHUB_REPO}/contents/content/posts`,
-    {
-      headers: {
-        Authorization: `Bearer ${GITHUB_TOKEN}`,
-        Accept: "application/vnd.github.v3+json",
-      },
-      next: { revalidate: 60 },
-    }
+    fetchOptions
   );
 
   if (!res.ok) return [];
@@ -57,9 +59,7 @@ async function fetchPostsFromGitHub(): Promise<Post[]> {
   const results = await Promise.all(
     mdFiles.map(async (file) => {
       try {
-        const contentRes = await fetch(file.download_url, {
-          next: { revalidate: 60 },
-        });
+        const contentRes = await fetch(file.download_url, noCache ? { cache: "no-store" } : { next: { revalidate: 60 } });
         if (!contentRes.ok) return null;
         const raw = await contentRes.text();
         return parsePost(file.name, raw);
@@ -107,7 +107,7 @@ export async function getPostsByType(type: "blog" | "research"): Promise<Post[]>
 
 export async function getAllPostsAdmin(): Promise<Post[]> {
   const posts = GITHUB_TOKEN
-    ? await fetchPostsFromGitHub()
+    ? await fetchPostsFromGitHub(true)
     : readPostsFromDisk();
 
   return posts.sort((a, b) => (a.date > b.date ? -1 : 1));

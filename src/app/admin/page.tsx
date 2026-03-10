@@ -2,6 +2,8 @@ import { getAllPostsAdmin } from "@/lib/posts";
 import { logout } from "./actions";
 import DeleteButton from "@/components/admin/DeleteButton";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const posts = await getAllPostsAdmin();
 
