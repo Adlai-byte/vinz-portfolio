@@ -2,8 +2,8 @@ import { getAllPostsAdmin } from "@/lib/posts";
 import { logout } from "./actions";
 import DeleteButton from "@/components/admin/DeleteButton";
 
-export default function AdminDashboard() {
-  const posts = getAllPostsAdmin();
+export default async function AdminDashboard() {
+  const posts = await getAllPostsAdmin();
 
   return (
     <div className="min-h-screen bg-background">

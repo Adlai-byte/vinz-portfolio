@@ -9,7 +9,7 @@ interface EditPostPageProps {
 
 export default async function EditPostPage({ params }: EditPostPageProps) {
   const { slug } = await params;
-  const post = getPostBySlugAdmin(slug);
+  const post = await getPostBySlugAdmin(slug);
 
   if (!post) {
     notFound();

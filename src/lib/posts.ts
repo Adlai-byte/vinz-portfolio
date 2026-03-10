@@ -4,6 +4,9 @@ import matter from "gray-matter";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
+const GITHUB_REPO = process.env.GITHUB_REPO || "Adlai-byte/vinz-portfolio";
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
 export interface Post {
   slug: string;
   title: string;
@@ -16,71 +19,96 @@ export interface Post {
   coverImage?: string;
 }
 
-export function getAllPosts(): Post[] {
-  if (!fs.existsSync(postsDirectory)) return [];
+function parsePost(filename: string, raw: string): Post {
+  const { data, content } = matter(raw);
+  return {
+    slug: data.slug || filename.replace(/\.md$/, ""),
+    title: data.title || "Untitled",
+    excerpt: data.excerpt || "",
+    type: data.type || "blog",
+    tags: data.tags || [],
+    published: data.published !== false,
+    date: data.date || "",
+    content,
+    coverImage: data.coverImage,
+  } as Post;
+}
 
-  const files = fs.readdirSync(postsDirectory).filter((f) => f.endsWith(".md"));
+// Fetch posts from GitHub API (used in production on Vercel)
+async function fetchPostsFromGitHub(): Promise<Post[]> {
+  if (!GITHUB_TOKEN) return [];
 
-  const posts = files
-    .map((filename) => {
-      const filePath = path.join(postsDirectory, filename);
-      const fileContent = fs.readFileSync(filePath, "utf-8");
-      const { data, content } = matter(fileContent);
+  const res = await fetch(
+    `https://api.github.com/repos/${GITHUB_REPO}/contents/content/posts`,
+    {
+      headers: {
+        Authorization: `Bearer ${GITHUB_TOKEN}`,
+        Accept: "application/vnd.github.v3+json",
+      },
+      next: { revalidate: 60 },
+    }
+  );
 
-      return {
-        slug: data.slug || filename.replace(/\.md$/, ""),
-        title: data.title || "Untitled",
-        excerpt: data.excerpt || "",
-        type: data.type || "blog",
-        tags: data.tags || [],
-        published: data.published !== false,
-        date: data.date || "",
-        content,
-        coverImage: data.coverImage,
-      } as Post;
+  if (!res.ok) return [];
+
+  const files = (await res.json()) as { name: string; download_url: string }[];
+  const mdFiles = files.filter((f) => f.name.endsWith(".md"));
+
+  const posts = await Promise.all(
+    mdFiles.map(async (file) => {
+      const contentRes = await fetch(file.download_url, {
+        next: { revalidate: 60 },
+      });
+      const raw = await contentRes.text();
+      return parsePost(file.name, raw);
     })
-    .filter((post) => post.published)
-    .sort((a, b) => (a.date > b.date ? -1 : 1));
+  );
 
   return posts;
 }
 
-export function getPostBySlug(slug: string): Post | null {
-  const posts = getAllPosts();
-  return posts.find((p) => p.slug === slug) || null;
-}
-
-export function getPostsByType(type: "blog" | "research"): Post[] {
-  return getAllPosts().filter((p) => p.type === type);
-}
-
-export function getAllPostsAdmin(): Post[] {
+// Read posts from local filesystem (used in development)
+function readPostsFromDisk(): Post[] {
   if (!fs.existsSync(postsDirectory)) return [];
 
   const files = fs.readdirSync(postsDirectory).filter((f) => f.endsWith(".md"));
 
-  return files
-    .map((filename) => {
-      const filePath = path.join(postsDirectory, filename);
-      const fileContent = fs.readFileSync(filePath, "utf-8");
-      const { data, content } = matter(fileContent);
+  return files.map((filename) => {
+    const filePath = path.join(postsDirectory, filename);
+    const raw = fs.readFileSync(filePath, "utf-8");
+    return parsePost(filename, raw);
+  });
+}
 
-      return {
-        slug: data.slug || filename.replace(/\.md$/, ""),
-        title: data.title || "Untitled",
-        excerpt: data.excerpt || "",
-        type: data.type || "blog",
-        tags: data.tags || [],
-        published: data.published !== false,
-        date: data.date || "",
-        content,
-        coverImage: data.coverImage,
-      } as Post;
-    })
+export async function getAllPosts(): Promise<Post[]> {
+  const posts = GITHUB_TOKEN
+    ? await fetchPostsFromGitHub()
+    : readPostsFromDisk();
+
+  return posts
+    .filter((post) => post.published)
     .sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
-export function getPostBySlugAdmin(slug: string): Post | null {
-  const posts = getAllPostsAdmin();
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const posts = await getAllPosts();
+  return posts.find((p) => p.slug === slug) || null;
+}
+
+export async function getPostsByType(type: "blog" | "research"): Promise<Post[]> {
+  const posts = await getAllPosts();
+  return posts.filter((p) => p.type === type);
+}
+
+export async function getAllPostsAdmin(): Promise<Post[]> {
+  const posts = GITHUB_TOKEN
+    ? await fetchPostsFromGitHub()
+    : readPostsFromDisk();
+
+  return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
+}
+
+export async function getPostBySlugAdmin(slug: string): Promise<Post | null> {
+  const posts = await getAllPostsAdmin();
   return posts.find((p) => p.slug === slug) || null;
 }
