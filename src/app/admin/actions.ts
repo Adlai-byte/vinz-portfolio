@@ -81,6 +81,7 @@ ${content}`;
 
   revalidatePath("/admin");
   revalidatePath("/blog");
+  revalidatePath("/");
   redirect("/admin");
 }
 
@@ -125,6 +126,7 @@ ${content}`;
 
   revalidatePath("/admin");
   revalidatePath("/blog");
+  revalidatePath("/");
   redirect("/admin");
 }
 
@@ -145,5 +147,6 @@ export async function deletePost(formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/blog");
+  revalidatePath("/");
   redirect("/admin");
 }

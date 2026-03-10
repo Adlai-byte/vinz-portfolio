@@ -54,17 +54,22 @@ async function fetchPostsFromGitHub(): Promise<Post[]> {
   const files = (await res.json()) as { name: string; download_url: string }[];
   const mdFiles = files.filter((f) => f.name.endsWith(".md"));
 
-  const posts = await Promise.all(
+  const results = await Promise.all(
     mdFiles.map(async (file) => {
-      const contentRes = await fetch(file.download_url, {
-        next: { revalidate: 60 },
-      });
-      const raw = await contentRes.text();
-      return parsePost(file.name, raw);
+      try {
+        const contentRes = await fetch(file.download_url, {
+          next: { revalidate: 60 },
+        });
+        if (!contentRes.ok) return null;
+        const raw = await contentRes.text();
+        return parsePost(file.name, raw);
+      } catch {
+        return null;
+      }
     })
   );
 
-  return posts;
+  return results.filter((p): p is Post => p !== null);
 }
 
 // Read posts from local filesystem (used in development)
