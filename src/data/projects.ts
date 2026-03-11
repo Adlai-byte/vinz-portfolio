@@ -69,6 +69,13 @@ const projectMeta: Record<
     tags: ["Vite", "TypeScript", "PWA"],
     image: "/projects/countdown-app-2026.png",
   },
+  "room-utilization": {
+    title: "PA-Set Room Utilization",
+    description:
+      "A room scheduling and utilization system for academic institutions. Features timetable and calendar views, room capacity tracking, department color-coding, class/event/recurring booking types, and a public read-only schedule for students and faculty.",
+    tags: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
+    image: "/projects/room-utilization.png",
+  },
   "dts-app": {
     title: "Advance Document Tracking System using Open Source Digital Signature",
     description:
