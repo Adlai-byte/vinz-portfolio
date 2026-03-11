@@ -1,5 +1,9 @@
+"use client";
+
 import ReactMarkdown, { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 function getYouTubeId(url: string): string | null {
   const match = url.match(
@@ -8,7 +12,63 @@ function getYouTubeId(url: string): string | null {
   return match?.[1] || null;
 }
 
+const customStyle = {
+  ...oneDark,
+  'pre[class*="language-"]': {
+    ...oneDark['pre[class*="language-"]'],
+    background: "#141414",
+    margin: 0,
+    borderRadius: 0,
+  },
+  'code[class*="language-"]': {
+    ...oneDark['code[class*="language-"]'],
+    background: "#141414",
+  },
+};
+
 const components: Components = {
+  code: ({ className, children, ...props }) => {
+    const match = /language-(\w+)/.exec(className || "");
+    const code = String(children).replace(/\n$/, "");
+
+    if (!match) {
+      // Inline code
+      return (
+        <code
+          className="bg-surface px-1.5 py-0.5 rounded text-[0.875em] font-mono text-text-primary"
+          {...props}
+        >
+          {children}
+        </code>
+      );
+    }
+
+    return (
+      <div className="my-6 rounded-lg border border-border overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-2 bg-surface border-b border-border">
+          <span className="text-xs font-mono text-text-dimmed">{match[1]}</span>
+          <button
+            type="button"
+            onClick={() => navigator.clipboard.writeText(code)}
+            className="text-xs text-text-dimmed hover:text-text-primary transition-colors"
+          >
+            Copy
+          </button>
+        </div>
+        <SyntaxHighlighter
+          style={customStyle}
+          language={match[1]}
+          PreTag="div"
+          customStyle={{ margin: 0, padding: "1rem", fontSize: "0.875rem" }}
+        >
+          {code}
+        </SyntaxHighlighter>
+      </div>
+    );
+  },
+
+  pre: ({ children }) => <>{children}</>,
+
   img: ({ src, alt }) => {
     if (!src || typeof src !== "string") return null;
 
