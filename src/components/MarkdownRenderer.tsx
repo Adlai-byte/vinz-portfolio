@@ -89,6 +89,15 @@ const components: Components = {
       );
     }
 
+    // Animated webp / gif — skip Next.js Image to preserve animation
+    if (/\.(gif)(\?|$)/i.test(src) || (alt?.toLowerCase() === "video" && /\.webp(\?|$)/i.test(src))) {
+      return (
+        <figure className="my-6">
+          <img src={src} alt={alt || ""} loading="lazy" className="rounded-lg border border-border w-full" />
+        </figure>
+      );
+    }
+
     // Uploaded video file (mp4, webm, mov)
     if (/\.(mp4|webm|mov)(\?|$)/i.test(src)) {
       return (
