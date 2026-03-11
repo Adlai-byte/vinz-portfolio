@@ -121,13 +121,6 @@ select option {
   color: var(--color-text-primary);
 }
 
-/* Custom cursor — hide default on fine pointer devices */
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-}
-
 /* Bottom padding for mobile nav */
 @media (max-width: 767px) {
   body {
