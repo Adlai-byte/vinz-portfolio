@@ -88,6 +88,17 @@ const components: Components = {
       );
     }
 
+    // Uploaded video file (mp4, webm, mov)
+    if (/\.(mp4|webm|mov)(\?|$)/i.test(src)) {
+      return (
+        <div className="my-6 rounded-lg overflow-hidden border border-border">
+          <video controls className="w-full" preload="metadata">
+            <source src={src} />
+          </video>
+        </div>
+      );
+    }
+
     return (
       <figure className="my-6">
         <img

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
+import MediaUpload from "@/components/admin/MediaUpload";
 import {
   Bold,
   Italic,
@@ -13,6 +14,7 @@ import {
   List,
   Quote,
   Code,
+  Loader2,
 } from "lucide-react";
 
 interface PostData {
@@ -88,12 +90,43 @@ export default function PostEditor({ action, post }: PostEditorProps) {
   const [published, setPublished] = useState(post?.published ?? true);
   const isEditing = !!post;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [dragOver, setDragOver] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (!isEditing) {
       setSlug(toSlug(title));
     }
   }, [title, isEditing]);
+
+  function insertAtCursor(text: string) {
+    const textarea = textareaRef.current;
+    const pos = textarea?.selectionStart ?? content.length;
+    const prefix = pos > 0 && content[pos - 1] !== "\n" ? "\n\n" : "";
+    setContent(content.substring(0, pos) + prefix + text + content.substring(pos));
+  }
+
+  async function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setDragOver(false);
+    const files = Array.from(e.dataTransfer.files).filter(
+      (f) => f.type.startsWith("image/") || f.type.startsWith("video/")
+    );
+    if (files.length === 0) return;
+
+    setUploading(true);
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      if (res.ok) {
+        const data = await res.json();
+        const isVideo = file.type.startsWith("video/");
+        insertAtCursor(isVideo ? `![video](${data.url})` : `![image](${data.url})`);
+      }
+    }
+    setUploading(false);
+  }
 
   function insertMarkdown(item: (typeof toolbarItems)[number]) {
     const textarea = textareaRef.current;
@@ -239,7 +272,7 @@ export default function PostEditor({ action, post }: PostEditorProps) {
           </label>
 
           {/* Toolbar */}
-          <div className="flex flex-wrap gap-1 mb-2 p-1.5 bg-surface border border-border rounded-t-md">
+          <div className="flex flex-wrap items-center gap-1 mb-2 p-1.5 bg-surface border border-border rounded-t-md">
             {toolbarItems.map((item) => (
               <button
                 key={item.label}
@@ -251,19 +284,40 @@ export default function PostEditor({ action, post }: PostEditorProps) {
                 <item.icon size={15} />
               </button>
             ))}
+            <div className="w-px h-5 bg-border mx-1" />
+            <MediaUpload onInsert={insertAtCursor} />
           </div>
 
-          <textarea
-            ref={textareaRef}
-            id="content"
-            name="content"
-            required
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            rows={18}
-            className="w-full px-3 py-2 bg-background border border-border border-t-0 rounded-b-md text-text-primary placeholder-text-dimmed focus:outline-none focus:ring-2 focus:ring-text-dimmed/50 font-mono text-sm resize-y"
-            placeholder="Write your post in Markdown..."
-          />
+          <div className="relative">
+            <textarea
+              ref={textareaRef}
+              id="content"
+              name="content"
+              required
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={handleDrop}
+              rows={18}
+              className={`w-full px-3 py-2 bg-background border border-border border-t-0 rounded-b-md text-text-primary placeholder-text-dimmed focus:outline-none focus:ring-2 focus:ring-text-dimmed/50 font-mono text-sm resize-y transition-colors ${
+                dragOver ? "border-text-primary bg-surface/50" : ""
+              }`}
+              placeholder="Write your post in Markdown... (drag & drop images/videos here)"
+            />
+            {(dragOver || uploading) && (
+              <div className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-b-md pointer-events-none">
+                {uploading ? (
+                  <span className="flex items-center gap-2 text-sm text-text-dimmed">
+                    <Loader2 size={18} className="animate-spin" />
+                    Uploading...
+                  </span>
+                ) : (
+                  <span className="text-sm text-text-dimmed">Drop to upload</span>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex gap-3">
