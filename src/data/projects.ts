@@ -34,7 +34,7 @@ const frameworkLabels: Record<string, string> = {
 // Keyed by project name (as it appears in Vercel).
 const projectMeta: Record<
   string,
-  { description: string; tags: string[]; image: string; images?: string[]; demo?: string; badge?: string }
+  { title?: string; description: string; tags: string[]; image: string; images?: string[]; demo?: string; badge?: string }
 > = {
   "pokemon-battle-royale": {
     description:
@@ -68,6 +68,13 @@ const projectMeta: Record<
       "An interactive New Year countdown web app with live timers, world timezone tracking, confetti effects, photo sharing, memes, and a guest book. Includes a guided onboarding tour and mobile-first design.",
     tags: ["Vite", "TypeScript", "PWA"],
     image: "/projects/countdown-app-2026.png",
+  },
+  dts: {
+    title: "Advance Document Tracking System using Open Source Digital Signature",
+    description:
+      "An advanced document tracking system with open source digital signature integration. Features document routing, approval workflows, signature verification, audit trails, and real-time status tracking for institutional document management.",
+    tags: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
+    image: "/projects/dts.png",
   },
 };
 
@@ -126,9 +133,10 @@ export async function fetchVercelProjects(): Promise<Project[]> {
         }
       }
 
-      const title = p.name
-        .replace(/-/g, " ")
-        .replace(/\b\w/g, (c) => c.toUpperCase());
+      const title = meta?.title ??
+        p.name
+          .replace(/-/g, " ")
+          .replace(/\b\w/g, (c) => c.toUpperCase());
 
       return {
         title,
