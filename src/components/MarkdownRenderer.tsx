@@ -2,6 +2,7 @@
 
 import ReactMarkdown, { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Image from "next/image";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
@@ -99,14 +100,28 @@ const components: Components = {
       );
     }
 
+    const isBlob = src.includes(".public.blob.vercel-storage.com");
+
     return (
       <figure className="my-6">
-        <img
-          src={src}
-          alt={alt || ""}
-          loading="lazy"
-          className="rounded-lg border border-border w-full"
-        />
+        {isBlob ? (
+          <Image
+            src={src}
+            alt={alt || ""}
+            width={800}
+            height={450}
+            quality={75}
+            sizes="(max-width: 768px) 100vw, 800px"
+            className="rounded-lg border border-border w-full h-auto"
+          />
+        ) : (
+          <img
+            src={src}
+            alt={alt || ""}
+            loading="lazy"
+            className="rounded-lg border border-border w-full"
+          />
+        )}
         {alt && alt !== "image" && (
           <figcaption className="text-center text-xs text-text-dimmed mt-2 italic">
             {alt}
