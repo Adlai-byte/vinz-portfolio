@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import ReactMarkdown from "react-markdown";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
@@ -104,7 +104,7 @@ export default async function BlogPostPage({
 
             {/* Content */}
             <div className="prose-custom">
-              <ReactMarkdown>{post.content}</ReactMarkdown>
+              <MarkdownRenderer content={post.content} />
             </div>
           </div>
         </article>
