@@ -69,7 +69,7 @@ const projectMeta: Record<
     tags: ["Vite", "TypeScript", "PWA"],
     image: "/projects/countdown-app-2026.png",
   },
-  dts: {
+  "dts-app": {
     title: "Advance Document Tracking System using Open Source Digital Signature",
     description:
       "An advanced document tracking system with open source digital signature integration. Features document routing, approval workflows, signature verification, audit trails, and real-time status tracking for institutional document management.",
