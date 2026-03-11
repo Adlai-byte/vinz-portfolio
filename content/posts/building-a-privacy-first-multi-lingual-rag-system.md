@@ -8,6 +8,7 @@ published: true
 date: "2026-03-11"
 ---
 
+
 *A Deep Dive into Local AI Orchestration with Ollama, LangChain, and Streamlit*
 
 ---
@@ -18,7 +19,7 @@ Today, we're detailing the implementation of our **DOrSU Student Handbook 2025 Q
 
 It not only searches through a dense 138-page PDF to answer student queries but also supports Taglish (Tagalog-English), processes cross-references via a lightweight knowledge graph, and visually pinpoints its answers directly inside a PDF viewer.
 
-![Initial Interface View](initial_state_1773145220217.png)
+![Initial Interface View](https://lbfugovmu4nj8jbr.public.blob.vercel-storage.com/blog/initial_state_1773145220217-CzRTZWXYSOaWlBUJgpk9rI14ogckh9.png)
 *Figure 1: The Streamlit interface, showcasing the sidebar administration panel and the chat UI.*
 
 ## The Core Architecture
@@ -31,7 +32,7 @@ To achieve a fully local, highly accurate system, we opted for a specialized sta
 - **Reranker**: `cross-encoder/ms-marco-MiniLM-L-6-v2` [5] for precision scoring.
 - **Frontend**: Streamlit [6], coupled with `streamlit-pdf-viewer` for our interactive document display.
 
-![Architecture Flowchart](flowchart-3jJpMcS2uFnB1PKqY0Xw.png)
+![Architecture Flowchart](https://lbfugovmu4nj8jbr.public.blob.vercel-storage.com/blog/flowchart-3jJpMcS2uFnBlPN0UMpjjM7V0wyFIk.png)
 *Figure 2: A visual overview of how the components interact.*
 
 ## Step 1: Intelligent Ingestion & Coordinate Mapping
@@ -59,7 +60,7 @@ To foster trust in the AI's output, our prompt explicitly instructs the LLM to p
 
 Because we saved the structural coordinates in Step 1, clicking a source button commands the Streamlit PDF viewer to navigate to that specific page and draw a red bounding box around the exact paragraph the LLM used to formulate its answer.
 
-![PDF Bounding Box Highlight](highlighted_pdf_response.png)
+![PDF Bounding Box Highlight](https://lbfugovmu4nj8jbr.public.blob.vercel-storage.com/blog/highlighted_pdf_response_1773145531041-KoX8BsR2gZl5WxJ6ImOCZ6vNxsN27P.png)
 *Figure 3: The UI mapping an LLM-generated response to the exact coordinate bounding box inside the original PDF document.*
 
 ## Key Implementation Details
@@ -112,7 +113,7 @@ _retriever = EnsembleRetriever(
 
 The reality of Philippine campuses is bilingualism. Students frequently mix English and Tagalog (Taglish). Because our pipeline features a pre-translation step combined with a capable LLM, the system can seamlessly accept a Taglish query and generate a contextually accurate response in that identical dialect.
 
-![Taglish Response](bilingual_response_17731.png)
+![Taglish Response](https://lbfugovmu4nj8jbr.public.blob.vercel-storage.com/blog/bilingual_response_1773145815101-E4iuexxPpJTFwCBmUtbxw8cX7sfHMv.png)
 *Figure 4: Handling a Taglish query about maintaining grades, demonstrating the LLM's cross-lingual capabilities.*
 
 ## RAG vs. Fine-Tuned Model: Why We Chose RAG
